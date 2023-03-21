@@ -84,8 +84,7 @@ class Main:
             self.section_confirmation.config(text='Mot de passe ou Email incorrect')
         else:
             self.fenetre.destroy()
-            teest = Chat_page(email)
-            teest.PseudoUtilisateur()
+            Chat_page(email)
 
 
 
