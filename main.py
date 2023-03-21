@@ -2,6 +2,7 @@ from tkinter import *
 import tkinter as tk
 from Class.Inscription import Inscription
 from Class.Connexion import Connexion
+from chat_page import Chat_page
 
 
 class Main:
@@ -81,6 +82,12 @@ class Main:
     def login(self, email, mdp):
         if not Connexion.connexion(self, email, mdp):
             self.section_confirmation.config(text='Mot de passe ou Email incorrect')
+        else:
+            self.fenetre.destroy()
+            teest = Chat_page(email)
+            teest.PseudoUtilisateur()
+
+
 
     def register(self, nom, prenom, email, mdp):
         if not Inscription.inscription(self, nom, prenom, email, mdp):

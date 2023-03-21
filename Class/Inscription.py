@@ -1,6 +1,6 @@
 import mysql.connector
 import hashlib
-admin = mysql.connector.connect(host="localhost", user="root", password="rootmdp", database="mydiscord")
+admin = mysql.connector.connect(host="localhost", user="root", password="vatefaireencule", database="mydiscord")
 cursor = admin.cursor()
 class Inscription:
     def __init__(self):
