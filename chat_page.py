@@ -1,18 +1,14 @@
 import tkinter as tk
 from tkinter import *
-from tkinter import messagebox
 import mysql.connector
-from Class.Chat import Chat
 import socket
 import threading
 from datetime import datetime
 from datetime import date
 import tkinter.scrolledtext
-import time
 
-admin = mysql.connector.connect(host="localhost", user="root", password="vatefaireencule", database="mydiscord")
+admin = mysql.connector.connect(host="localhost", user="root", password="ClemsSQL!13", database="mydiscord")
 cursor = admin.cursor()
-
 class Chat_page:
 
     def __init__(self, email):
@@ -23,14 +19,15 @@ class Chat_page:
         self.longueur_liste = 0
         self.dernier_message = ''
 
+
         fenetre = tk.Tk()
-        fenetre.geometry('600x720')
+        fenetre.geometry('640x720')
         fenetre.title('My Discord')
         fenetre.configure(bg='#000000')
         try:
             self.client.connect(('10.10.6.22', 1025))
         except:
-            tk.messagebox.showwarning("Test","Test")
+            print("Erreur")
 
         section_chanel_gauche = Frame()
         section_chanel_gauche.configure(bg='WHITE')
@@ -67,22 +64,13 @@ class Chat_page:
         bouton_entrer_chat = Button(section_entrer_chat, text='Entrer',command=lambda : self.EnvoieMessage(self.section_texte_chat.get()))
         bouton_entrer_chat.grid(column=2,row=2)
 
-        afficher_fenetre = threading.Thread(target=self.lancerfenetre, args=fenetre)
-        afficher_fenetre.start()
+        bouton_actu = Button(section_entrer_chat, text='Entrer',command=lambda : self.actu())
+        bouton_actu.grid(column=2,row=3)
+
 
         recois_message = threading.Thread(target=self.recoisMessage)
         recois_message.start()
 
-        #afficher_message_recus = threading.Thread(target=self.afficher_message_dans_listebox)
-        #afficher_message_recus.start()
-
-        envoie_message = threading.Thread(target=self.EnvoieMessage)
-        envoie_message.start()
-
-    def lancerfenetre(self, fenetre):
-        fenetre = fenetre
-        self.afficher_message_dans_listebox()
-        fenetre.mainloop()
 
     def pseudoUtilisateur(self):
 
@@ -100,22 +88,16 @@ class Chat_page:
         while True:
             #try:
             self.message = self.client.recv(1024).decode('utf-8')
-            if message == 'NICK':
+            if self.message == 'NICK':
                 self.client.send(self.pseudo.encode('utf-8'))
             else:
                 try:
                     if bool(self.message):
-                        self.liste_message.append(message)
-                        print(self.liste_message)
-                        self.dernier_message = message
-                        print(self.dernier_message)
-                        self.section_afficher_message.insert(END, self.message)
+                        self.liste_message.append(self.message)
+                        print(self.message)
+                        self.section_afficher_message.insert(END,self.message)
                 except:
                     pass
-            #except:
-             #   print('error occured!')
-              #  self.client.close()
-               # break
 
     def EnvoieMessage(self, mess):
         heure = datetime.now()
@@ -123,24 +105,15 @@ class Chat_page:
         aujourdhui = date.today()
         jour = aujourdhui.strftime("%d/%m/%Y")
         self.pseudo = self.pseudoUtilisateur()
-        message = f'[{jour}] [{heure_actuel}] {self.pseudo}: {mess}'
+        message = f'[{jour}] [{heure_actuel}] {self.pseudo}: {mess}\n'
         self.client.send(message.encode('utf-8'))
         self.section_afficher_message.insert(END, message)
         self.section_texte_chat.delete(0, END)
 
-
-    def afficher_message_dans_listebox(self):
-        if self.longueur_liste != len(self.liste_message):
-            mess = self.dernier_message
-            print(type(mess))
-            self.section_afficher_message.insert(END, mess)
-            self.longueur_liste = len(self.liste_message)
-
-
-
-
-
-
+    def actu(self):
+        self.section_afficher_message.delete("1.0",END)
+        for i in self.liste_message:
+            self.section_afficher_message.insert(END,i+"\n")
 
 
 

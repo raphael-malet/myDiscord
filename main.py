@@ -86,8 +86,6 @@ class Main:
             self.fenetre.destroy()
             Chat_page(email)
 
-
-
     def register(self, nom, prenom, email, mdp):
         if not Inscription.inscription(self, nom, prenom, email, mdp):
             self.section_confirmation_inscription.config(text='Email déjà utilisé')
