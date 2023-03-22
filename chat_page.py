@@ -7,7 +7,7 @@ from datetime import datetime
 from datetime import date
 import tkinter.scrolledtext
 
-admin = mysql.connector.connect(host="localhost", user="root", password="ClemsSQL!13", database="mydiscord")
+admin = mysql.connector.connect(host="localhost", user="root", password="rootmdp", database="mydiscord")
 cursor = admin.cursor()
 class Chat_page:
 
@@ -86,7 +86,6 @@ class Chat_page:
     def recoisMessage(self):
         self.pseudo = self.pseudoUtilisateur()
         while True:
-            #try:
             self.message = self.client.recv(1024).decode('utf-8')
             if self.message == 'NICK':
                 self.client.send(self.pseudo.encode('utf-8'))

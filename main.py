@@ -88,7 +88,11 @@ class Main:
 
     def register(self, nom, prenom, email, mdp):
         if not Inscription.inscription(self, nom, prenom, email, mdp):
-            self.section_confirmation_inscription.config(text='Email déjà utilisé')
+            self.section_confirmation_inscription.config(text='Email déjà utilisé',fg="RED")
+        else:
+            self.section_confirmation_inscription.config(text='Votre compte a été crée',fg="GREEN")
+
+
 
 
 Main()

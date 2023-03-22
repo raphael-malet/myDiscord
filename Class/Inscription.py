@@ -1,7 +1,7 @@
 import mysql.connector
 import hashlib
 
-admin = mysql.connector.connect(host="localhost", user="root", password="ClemsSQL!13", database="mydiscord")
+admin = mysql.connector.connect(host="localhost", user="root", password="rootmdp", database="mydiscord")
 cursor = admin.cursor()
 
 
@@ -25,5 +25,6 @@ class Inscription:
             commande = "insert into utilisateurs (nom,prenom,mail,mdp) values (%s,%s,%s,%s)"
             cursor.execute(commande, valeur)
             admin.commit()
+            return True
         except:
             return False
