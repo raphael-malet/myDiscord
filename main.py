@@ -20,6 +20,7 @@ class Main:
         mdp_connection = StringVar()
         self.text = StringVar()
 
+
         # section inscription
         section_entrer = LabelFrame(self.fenetre, bg='BLAcK', text='Connexion', font=('', 25), fg='WHITE')
         section_entrer.pack(expand=1, ipady=10)

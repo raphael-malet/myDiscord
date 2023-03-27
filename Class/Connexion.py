@@ -1,6 +1,6 @@
 import mysql.connector
 import hashlib
-admin = mysql.connector.connect(host="localhost", user="root", password="rootmdp", database="mydiscord")
+admin = mysql.connector.connect(host="localhost", user="root", password="ClemsSQL!13", database="mydiscord")
 cursor = admin.cursor()
 class Connexion:
     def __init__(self):
