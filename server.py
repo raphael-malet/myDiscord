@@ -31,7 +31,6 @@ def handle(client):
             clients.remove(client)
             client.close()
             nickname = nicknames[index]
-            broadcast(f"{nickname}  quitte le chat !".encode('utf-8'))
             nicknames.remove(nickname)
             break
 
