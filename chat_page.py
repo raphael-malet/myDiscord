@@ -9,7 +9,7 @@ import tkinter.scrolledtext
 import tkinter.messagebox
 
 # Connexion a la base de données
-admin = mysql.connector.connect(host="localhost", user="root", password="ClemsSQL!13", database="mydiscord")
+admin = mysql.connector.connect(host="localhost", user="root", password="rootmdp", database="mydiscord")
 cursor = admin.cursor()
 
 
@@ -20,7 +20,7 @@ class Chat_page:
         self.continuer = False
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # Connexion au serveur
-        self.client.connect(('10.10.1.143', 1025))
+        self.client.connect(('10.10.1.7', 1025))
         self.longueur_liste = 0
         self.gui = False
         self.en_cours = True
@@ -43,8 +43,11 @@ class Chat_page:
         afficher_email = Label(section_chanel_gauche, text=self.pseudoUtilisateur(), fg='WHITE', bg='BLACK')
         afficher_email.grid()
         # Section pour afficher la liste des channels
-        liste_channel = Listbox(section_chanel_gauche, width=10, fg='BLACK', bg='RED', height=20)
-        liste_channel.grid()
+        liste_channel = Frame(section_chanel_gauche, width=10)
+        liste_channel.config(bg='RED', height=500)
+        liste_channel.grid(sticky=EW)
+
+        #bouton accéder serveur
 
         section_droite = Frame()
         section_droite.configure(bg='WHITE', width=500)
@@ -70,6 +73,8 @@ class Chat_page:
                                     command=lambda: self.EnvoieMessage(self.section_texte_chat.get()))
         bouton_entrer_chat.grid(column=2, row=2)
 
+
+
         # Bouton déconnexion
         bouton_deconnexion = Button(section_chanel_gauche, text='Déconnexion', bg="RED",
                                     command=lambda: self.Deconnexion())
@@ -85,6 +90,9 @@ class Chat_page:
         cursor.execute(commande)
         for message in cursor:
             self.section_afficher_message.insert('end', str(message)[2:-3] + "\n")
+
+        bouton_creer_serveur = Button(section_chanel_gauche, text='creer channel', bg='RED')
+        bouton_creer_serveur.grid(column=0, row=4)
 
         # Variable pour indiquer que la fenêtre a été créer
         self.gui = True
@@ -149,9 +157,8 @@ class Chat_page:
         cursor.execute(commande)
         for port in cursor:
             liste_serveur.append(port)
-            print(type(liste_serveur))
         for i in liste_serveur:
-            str_liste_serveur += str(i)+'\n'
+            str_liste_serveur += str(i)[2:-1]+'\n'
         tkinter.messagebox.showinfo("Liste des serveurs", str_liste_serveur)
 
     def Deconnexion(self):
