@@ -39,13 +39,11 @@ class Server:
     def receive(self):
         while True:
             client, address = self.server.accept()
-            print(f'connected with (str{address})')
             #envoie Nick pour avoir les noms d'utilisateurs pour l'ajouter a la liste des users
             client.send("NICK".encode('utf-8'))
             nickname = client.recv(1024).decode('utf-8')
             self.nicknames.append(nickname)
             self.clients.append(client)
-            print(f'Nickame if the {nickname} !')
             #envoie un message dans le chat pour dire qui a rejoins le chat
             self.broadcast(f'{nickname} a rejoint le chat !\n'.encode('utf-8'))
             #client.send('connected to the server'.encode("utf-8"))

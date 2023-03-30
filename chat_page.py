@@ -22,7 +22,7 @@ class Chat_page:
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # Connexion au serveur
         self.port = 1025
-        self.client.connect(('10.10.3.112', self.port))
+        self.client.connect(('127.0.0.1', self.port))
         self.longueur_liste = 0
         self.gui = False
         self.en_cours = True

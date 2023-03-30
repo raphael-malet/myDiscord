@@ -29,7 +29,7 @@ CREATE TABLE `channel` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `port` (`port`),
   UNIQUE KEY `nom` (`nom`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,8 +38,31 @@ CREATE TABLE `channel` (
 
 LOCK TABLES `channel` WRITE;
 /*!40000 ALTER TABLE `channel` DISABLE KEYS */;
-INSERT INTO `channel` VALUES (1,'public',1025),(6,'Swag',1227);
+INSERT INTO `channel` VALUES (1,'public',1025),(6,'Swag',1227),(7,'Salon',1228),(9,'Poule',1230);
 /*!40000 ALTER TABLE `channel` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `poule`
+--
+
+DROP TABLE IF EXISTS `poule`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `poule` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `message` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `poule`
+--
+
+LOCK TABLES `poule` WRITE;
+/*!40000 ALTER TABLE `poule` DISABLE KEYS */;
+/*!40000 ALTER TABLE `poule` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -53,7 +76,7 @@ CREATE TABLE `public` (
   `id` int NOT NULL AUTO_INCREMENT,
   `message` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,8 +85,32 @@ CREATE TABLE `public` (
 
 LOCK TABLES `public` WRITE;
 /*!40000 ALTER TABLE `public` DISABLE KEYS */;
-INSERT INTO `public` VALUES (1,'[27/03/2023] [11:27:38] Abdul Gaming: bonjour'),(2,'[27/03/2023] [11:29:25] Abdul Gaming: a+'),(3,'[27/03/2023] [11:30:02] test test: salut abdul'),(4,'[27/03/2023] [12:30:57] Abdul Gaming: Oui'),(5,'[27/03/2023] [12:50:28] Abdul Gaming: /liste'),(6,'[27/03/2023] [16:01:46] Abdul Gaming: dd'),(7,'[27/03/2023] [16:46:33] Abdul Gaming: Bonsoir'),(8,'[29/03/2023] [11:18:16] Abdul Gaming: Salutation'),(9,'[29/03/2023] [11:19:12] Abdul Gaming: Salut'),(10,'[29/03/2023] [12:05:33] Abdul Gaming: Boom'),(11,'[29/03/2023] [15:58:00] Abdul Gaming: test'),(12,'[29/03/2023] [16:15:24] Abdul Gaming: Poulet'),(13,'[29/03/2023] [16:50:17] Abdul Gaming: Salutations'),(14,'[30/03/2023] [09:29:54] Abdul Gaming: Swag'),(15,'[30/03/2023] [09:33:15] Abdul Gaming: Swag'),(17,'[30/03/2023] [10:51:10] Abdul Gaming: Koala'),(19,'[30/03/2023] [10:51:59] Abdul Gaming: Pingouin'),(25,'[30/03/2023] [12:11:31] Abdul Gaming: un message'),(26,'[30/03/2023] [12:36:49] Abdul Gaming: Oui'),(27,'[30/03/2023] [13:02:08] Abdul Gaming: Deep'),(28,'[30/03/2023] [13:24:28] Abdul Gaming: Oui'),(29,'[30/03/2023] [13:27:53] Abdul Gaming: Zoo'),(30,'[30/03/2023] [13:29:53] Abdul Gaming: Zed'),(31,'[30/03/2023] [13:30:36] Abdul Gaming: ide'),(32,'[30/03/2023] [13:31:35] Abdul Gaming: b'),(33,'[30/03/2023] [13:32:37] Abdul Gaming: f'),(34,'[30/03/2023] [13:34:05] Abdul Gaming: g'),(35,'[30/03/2023] [13:34:18] Abdul Gaming: l');
+INSERT INTO `public` VALUES (1,'[27/03/2023] [11:27:38] Abdul Gaming: bonjour'),(2,'[27/03/2023] [11:29:25] Abdul Gaming: a+'),(3,'[27/03/2023] [11:30:02] test test: salut abdul'),(4,'[27/03/2023] [12:30:57] Abdul Gaming: Oui'),(5,'[27/03/2023] [12:50:28] Abdul Gaming: /liste'),(6,'[27/03/2023] [16:01:46] Abdul Gaming: dd'),(7,'[27/03/2023] [16:46:33] Abdul Gaming: Bonsoir'),(8,'[29/03/2023] [11:18:16] Abdul Gaming: Salutation'),(9,'[29/03/2023] [11:19:12] Abdul Gaming: Salut'),(10,'[29/03/2023] [12:05:33] Abdul Gaming: Boom'),(11,'[29/03/2023] [15:58:00] Abdul Gaming: test'),(12,'[29/03/2023] [16:15:24] Abdul Gaming: Poulet'),(13,'[29/03/2023] [16:50:17] Abdul Gaming: Salutations'),(14,'[30/03/2023] [09:29:54] Abdul Gaming: Swag'),(15,'[30/03/2023] [09:33:15] Abdul Gaming: Swag'),(17,'[30/03/2023] [10:51:10] Abdul Gaming: Koala'),(19,'[30/03/2023] [10:51:59] Abdul Gaming: Pingouin'),(25,'[30/03/2023] [12:11:31] Abdul Gaming: un message'),(26,'[30/03/2023] [12:36:49] Abdul Gaming: Oui'),(27,'[30/03/2023] [13:02:08] Abdul Gaming: Deep'),(28,'[30/03/2023] [13:24:28] Abdul Gaming: Oui'),(29,'[30/03/2023] [13:27:53] Abdul Gaming: Zoo'),(30,'[30/03/2023] [13:29:53] Abdul Gaming: Zed'),(31,'[30/03/2023] [13:30:36] Abdul Gaming: ide'),(32,'[30/03/2023] [13:31:35] Abdul Gaming: b'),(33,'[30/03/2023] [13:32:37] Abdul Gaming: f'),(34,'[30/03/2023] [13:34:05] Abdul Gaming: g'),(35,'[30/03/2023] [13:34:18] Abdul Gaming: l'),(36,'[30/03/2023] [14:00:17] test test: aie'),(37,'[30/03/2023] [14:00:35] Abdul Gaming: ouille'),(38,'[30/03/2023] [14:51:32] test test: Salut mec'),(39,'[30/03/2023] [14:51:38] Abdul Gaming: Salam');
 /*!40000 ALTER TABLE `public` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `salon`
+--
+
+DROP TABLE IF EXISTS `salon`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `salon` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `message` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `salon`
+--
+
+LOCK TABLES `salon` WRITE;
+/*!40000 ALTER TABLE `salon` DISABLE KEYS */;
+INSERT INTO `salon` VALUES (1,'[30/03/2023] [14:57:19] test test: Poivron'),(2,'[30/03/2023] [14:57:36] Abdul Gaming: Salade');
+/*!40000 ALTER TABLE `salon` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -128,4 +175,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-30 13:46:16
+-- Dump completed on 2023-03-30 15:00:24
