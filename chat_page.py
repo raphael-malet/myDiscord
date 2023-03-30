@@ -12,7 +12,6 @@ from tkinter.simpledialog import askstring
 # Connexion a la base de données
 admin = mysql.connector.connect(host="localhost", user="root", password="rootmdp", database="mydiscord")
 cursor = admin.cursor()
-admin.cursor(buffered=True)
 
 
 class Chat_page:
@@ -22,7 +21,8 @@ class Chat_page:
         self.continuer = False
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # Connexion au serveur
-        self.client.connect(('10.10.1.7', 1025))
+        self.port = 1025
+        self.client.connect(('10.10.3.112', self.port))
         self.longueur_liste = 0
         self.gui = False
         self.en_cours = True
@@ -33,13 +33,13 @@ class Chat_page:
 
         # Définition des paramètres de la fenêtre
         self.fenetre = tk.Tk()
-        self.fenetre.geometry('640x720')
+        self.fenetre.geometry('900x720')
         self.fenetre.title('My Discord')
         self.fenetre.configure(bg='#000000')
         self.fenetre.resizable(False, False)
 
         section_chanel_gauche = Frame()
-        section_chanel_gauche.configure(bg='WHITE')
+        section_chanel_gauche.configure(bg='BLACK')
         section_chanel_gauche.pack(side=LEFT, fill=Y)
         # Section pour afficher le nom de l'utilisateur
         afficher_email = Label(section_chanel_gauche, text=self.pseudoUtilisateur(), fg='WHITE', bg='BLACK')
@@ -47,28 +47,28 @@ class Chat_page:
 
         # Section pour afficher la liste des channels
         self.liste_channel = Frame(section_chanel_gauche, width=10)
-        self.liste_channel.config(bg='RED', height=500)
+        self.liste_channel.config(bg='BLACK', height=500)
         self.liste_channel.grid(sticky=EW)
 
         # bouton accéder serveur
         section_droite = Frame()
-        section_droite.configure(bg='WHITE', width=500)
+        section_droite.configure(bg='BLACK', width=500)
         section_droite.pack(side=RIGHT, fill=Y)
 
         section_droite_afficher_message = Frame(section_droite)
         section_droite_afficher_message.grid(rows=1)
 
         # Section afficher les messages du chat
-        self.section_afficher_message = tkinter.scrolledtext.ScrolledText(section_droite, bg='GREY', width=50,
+        self.section_afficher_message = tkinter.scrolledtext.ScrolledText(section_droite, bg='GREY',
                                                                           height=34)
-        self.section_afficher_message.grid(sticky=N)
+        self.section_afficher_message.grid(sticky=EW)
 
         # Section Chat
         section_entrer_chat = Frame(section_droite)
-        section_entrer_chat.configure(bg='GREY', width=500, height=100)
+        section_entrer_chat.configure(bg='BLACK', width=500, height=100)
         section_entrer_chat.grid(row=2, )
         # Section pour entrer le texte à envoyer
-        self.section_texte_chat = Entry(section_entrer_chat, bg='WHITE', width=40, fg='BLACK')
+        self.section_texte_chat = Entry(section_entrer_chat, bg='WHITE', width=85, fg='BLACK')
         self.section_texte_chat.grid(column=4, row=2)
         # Bouton Envoyer message
         bouton_entrer_chat = Button(section_entrer_chat, text='Entrer',
@@ -80,22 +80,23 @@ class Chat_page:
         section_gauche_bas.grid(sticky=N, pady=10)
 
         # Bouton déconnexion
-        bouton_deconnexion = Button(section_gauche_bas, text='Déconnexion', bg="RED",
+        bouton_deconnexion = Button(section_gauche_bas, font=('', 11, "bold"), text='Déconnexion', bg="RED",
                                     command=lambda: self.Deconnexion())
-        bouton_deconnexion.grid(column=0, row=2, sticky=S)
+        bouton_deconnexion.grid(column=0, row=4, sticky=EW)
 
         # Bouton Liste Serveur
-        bouton_liste_serveur = Button(section_gauche_bas, text='Liste Serveur', bg="BLUE",
+        bouton_liste_serveur = Button(section_gauche_bas, font=('', 11, "bold"), text='Liste Serveur', bg="BLUE",
                                       command=lambda: self.ListeServeur())
-        bouton_liste_serveur.grid(column=0, row=3, sticky=S)
+        bouton_liste_serveur.grid(column=0, row=3, sticky=EW)
         # Affichage de l'historique des messages
         commande = "select message from public"
         cursor.execute(commande)
         for message in cursor:
             self.section_afficher_message.insert('end', str(message)[2:-3] + "\n")
-
-        bouton_creer_serveur = Button(section_gauche_bas, text='créer channel', bg='RED', command=lambda :self.creation_channel())
-        bouton_creer_serveur.grid(column=0, row=4, sticky=S)
+        # Bouton pour créer des channels
+        bouton_creer_serveur = Button(section_gauche_bas, font=('', 11, "bold"), text='Créer un Channel', bg='GREEN',
+                                      command=lambda: self.creation_channel())
+        bouton_creer_serveur.grid(column=0, row=2, sticky=EW)
 
         afficher_bouton_serveur = threading.Thread(target=self.afficher_bouton_serveur)
         afficher_bouton_serveur.start()
@@ -125,7 +126,6 @@ class Chat_page:
                     self.client.send(self.pseudo.encode('utf-8'))
                 else:
                     if self.gui:
-                        print(self.message)
                         self.section_afficher_message.config(state='normal')
                         self.section_afficher_message.insert('end', self.message)
                         self.section_afficher_message.yview('end')
@@ -133,7 +133,7 @@ class Chat_page:
             except ConnectionAbortedError:
                 break
             except:
-                print('Erreur')
+                print('Connexion Perdu !')
                 self.client.close()
                 break
 
@@ -152,11 +152,12 @@ class Chat_page:
         self.section_texte_chat.delete(0, END)
         # Ajout des messages dans la database pour l'historique
         message_db = f'[{jour}] [{heure_actuel}] {self.pseudo}: {mess}'
-        commande = "insert into "+self.channel+" (message) value (%s)"
+        commande = "insert into " + self.channel + " (message) value (%s)"
         cursor.execute(commande, (message_db,))
         admin.commit()
 
     def ListeServeur(self):
+        # Affiche une pop-up avec les nom et port des channels
         liste_serveur = []
         str_liste_serveur = ''
         commande = "select nom,port from channel"
@@ -168,33 +169,29 @@ class Chat_page:
         tkinter.messagebox.showinfo("Liste des serveurs", str_liste_serveur)
 
     def Deconnexion(self):
+        # Déconnecte l'utilisateur du serveur et de sa session
         self.client.close()
         self.fenetre.destroy()
         import main
 
     def afficher_bouton_serveur(self):
-        # afficher bouton liste serveur
+        # Affiche les boutons des channels
         commande = 'select nom from channel'
         cursor.execute(commande)
         i = 0
         for nom in cursor:
             bouton_channel = Button(self.liste_channel, text=nom, bg='WHITE',
                                     command=lambda bouton=nom: self.afficher_channel(bouton))
-            bouton_channel.grid(column=0, row=i, sticky=EW)
+            bouton_channel.grid(column=0, row=i, sticky=EW, ipadx=43, pady=3)
             i += 1
 
-
     def afficher_channel(self, nom):
+        # Affiche le contenu du channel sélectionné et son historique
+        self.section_afficher_message.config(state='normal')
+        self.section_afficher_message.delete(1.0, END)
+        self.section_afficher_message.config(state='disabled')
         nom_channel = str(nom)[2:-3]
         self.channel = nom_channel
-        commande_channel = "select message from " + nom_channel
-        cursor.execute(commande_channel)
-        cursor.fetchall()
-        self.section_afficher_message.config(state='normal')
-        self.section_afficher_message.delete('1.0', END)
-        self.section_afficher_message.insert('end', self.message)
-        self.section_afficher_message.yview('end')
-        self.section_afficher_message.config(state='disabled')
         commande = "select message from " + nom_channel
         cursor.execute(commande)
         for i in cursor:
@@ -204,23 +201,22 @@ class Chat_page:
             self.section_afficher_message.config(state='disabled')
 
     def creation_channel(self):
-        commande1='select max(port) from channel'
+        commande1 = 'select max(port) from channel'
         cursor.execute(commande1)
         for port in cursor:
             port = str(port)[1:-2]
             port = int(port)
-            port +=1
+            port += 1
+            # Ouvre une pop-up qui demande le nom du channel
         channel = askstring('Création de channel', 'Entrer le nom de votre channel')
-        valeur= channel,port
+        valeur = channel, port
+        # Créer le channel avec le nom choisi
         commande2 = 'insert into channel (nom, port) values (%s,%s)'
-        cursor.execute(commande2,valeur)
+        cursor.execute(commande2, valeur)
         admin.commit()
-        commande3 = 'create table '+channel +'(id int primary key auto_increment, message text not null)'
+        # Créer une table pour l'historique des messages du channel créer
+        commande3 = 'create table ' + channel + '(id int primary key auto_increment, message text not null)'
         cursor.execute(commande3)
         admin.commit()
+        # Actualise la liste des channels
         self.afficher_bouton_serveur()
-
-
-
-        
-

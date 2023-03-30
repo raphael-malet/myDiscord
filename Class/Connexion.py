@@ -17,6 +17,7 @@ class Connexion:
             # Hache le mot de passe en hexadécimal
             mdp_digest = hachage.hexdigest()
             valeur = email,mdp_digest
+            # Vérifie si le mail et mdp sont corrects pour connecter l'utilisateur
             commande ="select * from utilisateurs where mail=%s and mdp=%s"
             cursor.execute(commande, valeur)
             existe = cursor.fetchone()

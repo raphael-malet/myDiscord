@@ -22,6 +22,7 @@ class Inscription:
             # Hache le mot de passe en hexadécimal
             mdp = hachage.hexdigest()
             valeur = nom, prenom, email, mdp
+            # Crée l'utilisateur si le mail n'est pas déjà utilisé
             commande = "insert into utilisateurs (nom,prenom,mail,mdp) values (%s,%s,%s,%s)"
             cursor.execute(commande, valeur)
             admin.commit()
