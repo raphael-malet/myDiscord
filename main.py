@@ -1,8 +1,10 @@
 from tkinter import *
 import tkinter as tk
+import threading
 from Class.Inscription import Inscription
 from Class.Connexion import Connexion
 from chat_page import Chat_page
+from Class.server import Server
 
 
 class Main:
@@ -19,6 +21,8 @@ class Main:
         mdp = StringVar()
         mdp_connection = StringVar()
         self.text = StringVar()
+
+
 
         # Section inscription
         section_entrer = LabelFrame(self.fenetre, bg='BLAcK', text='Connexion', font=('', 25), fg='WHITE')
@@ -77,7 +81,11 @@ class Main:
                                                                   email_entrer.get(), mdp_entrer.get()))
         inscription_bouton.grid(pady=10)
 
+
+
         self.fenetre.mainloop()
+
+
 
     def login(self, email, mdp):
         if not Connexion.connexion(self, email, mdp):
@@ -94,5 +102,9 @@ class Main:
         else:
             self.section_confirmation_inscription.config(text='Votre compte a été crée', fg="GREEN")
 
+
+
+lancer_server = threading.Thread(target=Server)
+lancer_server.start()
 
 Main()
